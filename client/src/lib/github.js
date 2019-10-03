@@ -1,7 +1,6 @@
 import qs from "query-string";
 
 const API_BASE_URL = process.env.REACT_APP_API_ROOT_URL;
-const APP_BASE_URL = process.env.REACT_APP_ROOT_URL;
 const GITHUB_AUTH_BASE_URL = "https://github.com";
 const GITHUB_API_BASE_URL = "https://api.github.com";
 
@@ -13,10 +12,10 @@ export default class GithubClient {
     this.options = options;
   }
 
-  authorize() {
+  authorize({ redirectUri }) {
     const query = {
       client_id: this.options.clientId,
-      redirect_uri: APP_BASE_URL
+      redirect_uri: redirectUri
     };
 
     const authUrl = `${GITHUB_AUTH_BASE_URL}/login/oauth/authorize?${qs.stringify(

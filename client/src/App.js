@@ -2,20 +2,20 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { GithubProvider } from "./contexts/github";
 
-import { CoreUiProvider, Text } from "./core-ui";
+import { CoreUiProvider } from "./core-ui";
+import PrivateRoute from './components/PrivateRoute';
 
 import GithubConnectPage from "./pages/GithubConnectPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
     <GithubProvider>
       <CoreUiProvider>
-        <Router>
+        <Router basename="/">
           <Switch>
-            <Route path="/" component={GithubConnectPage} />
-            <Route path="/prs">
-              <Text>Containous</Text>
-            </Route>
+            <Route path="/auth" component={GithubConnectPage} />
+            <PrivateRoute path="/" component={HomePage} />
           </Switch>
         </Router>
       </CoreUiProvider>

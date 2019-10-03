@@ -1,6 +1,5 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import css from "@styled-system/css";
 import merge from "lodash.merge";
 import get from "lodash.get";
 

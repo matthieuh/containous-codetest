@@ -1,5 +1,6 @@
 import React from "react";
 import qs from "query-string";
+import { useHistory } from "react-router"
 import { Page, Button, Flex, Box, Text } from "../core-ui";
 import { useGithub } from "../contexts/github";
 
@@ -7,6 +8,7 @@ const { REACT_APP_ROOT_URL } = process.env;
 
 const GithubConnectPage = ({ location }) => {
   const [{ client, user }, dispatch] = useGithub();
+  const history = useHistory();
 
   React.useEffect(() => {
     const getCode = async code => {
@@ -27,8 +29,12 @@ const GithubConnectPage = ({ location }) => {
   }, [location.search, client, dispatch]);
 
   const handleConnect = React.useCallback(() => {
-    client.authorize({ redirectUri: REACT_APP_ROOT_URL });
+    client.authorize({ redirectUri: `${REACT_APP_ROOT_URL}/auth` });
   }, [client]);
+
+  const handleAppOpening = React.useCallback(() => {
+    history.push("/")
+  }, [history])
 
   return (
     <Page alignItem="center" justifyContent="center" alignItems="center">
@@ -39,7 +45,7 @@ const GithubConnectPage = ({ location }) => {
               Welcome <Text fontWeight="bold">{user.name}</Text>
             </Box>
             <Flex justifyContent="center">
-              <Button variant="primary">Let's Go</Button>
+              <Button variant="primary" onClick={handleAppOpening}>Let's Go</Button>
             </Flex>
           </Box>
         ) : (
