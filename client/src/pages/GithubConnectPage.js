@@ -1,9 +1,7 @@
 import React from "react";
 import qs from "query-string";
-import Button from "../ui/Button";
-import Box from "../ui/Box";
-import Text from "../ui/Text";
-import { useGithub } from "../../contexts/github";
+import { Page, Button, Flex, Box, Text } from "../core-ui";
+import { useGithub } from "../contexts/github";
 
 const { REACT_APP_ROOT_URL } = process.env;
 
@@ -32,14 +30,25 @@ const GithubConnectPage = ({ location }) => {
     client.authorize({ redirectUri: REACT_APP_ROOT_URL });
   }, [client]);
 
-  if (user) {
-    return <Text>{user.name}</Text>;
-  }
-
   return (
-    <Box>
-      <Button onClick={handleConnect}>Github connect</Button>
-    </Box>
+    <Page alignItem="center" justifyContent="center" alignItems="center">
+      <Box>
+        {user ? (
+          <Box>
+            <Box mb="3">
+              Welcome <Text fontWeight="bold">{user.name}</Text>
+            </Box>
+            <Flex justifyContent="center">
+              <Button variant="primary">Let's Go</Button>
+            </Flex>
+          </Box>
+        ) : (
+          <Button variant="github" onClick={handleConnect}>
+            Authorize application
+          </Button>
+        )}
+      </Box>
+    </Page>
   );
 };
 
