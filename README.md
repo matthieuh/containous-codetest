@@ -1,7 +1,7 @@
 # Containous Code Test
 
 ## Description
-This app give ability to list and merge Github pull requests 
+This app gives ability to list and merge Github pull requests 
 
 Demo: https://containous-codetest.matthieuh.now.sh
 
