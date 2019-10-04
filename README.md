@@ -1,5 +1,8 @@
 # Containous Code Test
 
+## Description
+This app give ability to list and merge Github pull requests 
+
 Demo: https://containous-codetest.matthieuh.now.sh
 
 ![Preview](preview.gif)
@@ -21,6 +24,6 @@ _An alternative is using `now dev` cli to have exact same behaviour locally than
 
 ## Deploy app in prod
 
-* Add `now` secrets using `now secrets add@containous-codetest-gh-id <value>` and `now secrets add@containous-codetest-gh-secret <value>` commands
+* Add `now` secrets using `now secrets add @containous-codetest-gh-id <value>` and `now secrets add @containous-codetest-gh-secret <value>` commands
 * On `server` folder run `now --prod`
 * On `client` folder run `now --prod`
