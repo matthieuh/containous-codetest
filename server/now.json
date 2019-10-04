@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "name": "containous-codetest-api",
+  "builds": [
+    { "src": "/index.js", "use": "@now/node-server" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.js" }
+  ],
+  "env": {
+    "PORT": "80",
+    "GITHUB_CLIENT_ID": "@containous-codetest-gh-id",
+    "GITHUB_CLIENT_SECRET": "@containous-codetest-gh-secret"
+  }
+}

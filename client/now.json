@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "name": "containous-codetest",
+  "builds": [
+    { "src": "package.json", "use": "@now/static-build", "config": { "distDir": "build" } }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "headers": { "cache-control": "s-maxage=31536000,immutable" },
+      "dest": "/static/$1"
+    },
+    { "src": "/favicon.ico", "dest": "/favicon.ico" },
+    {
+      "src": "/asset-manifest.json",
+      "dest": "/asset-manifest.json"
+    },
+    {
+      "src": "/service-worker.js",
+      "headers": { "cache-control": "s-maxage=0" },
+      "dest": "/service-worker.js"
+    },
+    {
+      "src": "/(.*)",
+      "headers": { "cache-control": "s-maxage=0" },
+      "dest": "/index.html"
+    }
+  ],
+  "build": {
+    "env": {
+      "REACT_APP_GITHUB_CLIENT_ID": "@containous-codetest-gh-id",
+      "REACT_APP_ROOT_URL": "https://containous-codetest.matthieuh.now.sh",
+      "REACT_APP_API_ROOT_URL": "https://containous-codetest-api.matthieuh.now.sh"
+    }
+  }
+}
