@@ -7,10 +7,12 @@ export const theme = {
     mono: '"Liberation Mono", Menlo, Courier, monospace'
   },
   fontSizes: [12, 14, 16, 24, 32, 48, 64, 96, 128],
-  space: [0, 4, 8, 16, 32, 64, 128, 256],
+  space: [0, 4, 8, 16, 32, 48, 64, 128, 256],
+  sizes: [0, 4, 8, 16, 32, 48, 64, 128, 256],
   colors: {
     txt: "#282C35",
     bg: "#fff",
+    primary: "#09D3AC",
     modes: {
       dark: {
         txt: "#09D3AC",

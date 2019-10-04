@@ -12,10 +12,15 @@ export default class GithubClient {
     this.options = options;
   }
 
+  setToken(newToken) {
+    this.token = newToken;
+  }
+
   authorize({ redirectUri }) {
     const query = {
       client_id: this.options.clientId,
-      redirect_uri: redirectUri
+      redirect_uri: redirectUri,
+      scope: 'repo'
     };
 
     const authUrl = `${GITHUB_AUTH_BASE_URL}/login/oauth/authorize?${qs.stringify(
@@ -23,19 +28,6 @@ export default class GithubClient {
     )}`;
 
     window.open(authUrl, "_self");
-  }
-
-  async getToken(code) {
-    const res = await this.fetchAndThrow(
-      "/github/token",
-      { code },
-      {
-        baseUrl: API_BASE_URL
-      }
-    );
-
-    this.token = res.access_token;
-    return this.fetchAndThrow("/user", null, { method: "GET" });
   }
 
   fetch(path, data, opts = {}) {
@@ -65,11 +57,34 @@ export default class GithubClient {
   async fetchAndThrow(path, data, opts) {
     try {
       const res = await this.fetch(path, data, opts);
+      if (res.status === "401") {
+        this.token = null;
+      }
       return res.json();
     } catch (error) {
       throw new Error(
         `Failed Github call. path: ${path} data: ${JSON.stringify(data)}`
       );
     }
+  }
+
+  apiGet(path, data, opts) {
+    return this.fetchAndThrow(path, data, { method: "GET", ...opts });
+  }
+
+  apiPost(path, data, opts) {
+    return this.fetchAndThrow(path, data, { method: "POST", ...opts });
+  }
+
+  apiPut(path, data, opts) {
+    return this.fetchAndThrow(path, data, { method: "PUT", ...opts });
+  }
+
+  authPost(path, data, opts) {
+    return this.fetchAndThrow(path, data, {
+      method: "POST",
+      baseUrl: API_BASE_URL,
+      ...opts
+    });
   }
 }
