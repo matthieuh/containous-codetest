@@ -21,6 +21,8 @@ _An alternative is using `now dev` cli to have exact same behaviour locally than
 * On `client` folder run `now dev --listen 3000`
 * On `server` folder run `now dev --listen 8080`
 
+_An 2nd alternative is using `docker` running:_ `docker compose up -d`
+
 
 ## Deploy app in prod
 

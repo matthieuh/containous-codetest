@@ -1,0 +1,47 @@
+version: '3'
+volumes:
+  node_modules:
+
+services:
+  client:
+    build: ./client
+    image: containous-codetest-client
+    container_name: containous-codetest-client
+    env_file:
+      - ./client/.env
+    ports:
+      - 3000:3000
+    depends_on:
+      - server
+    labels:
+      - traefik.port=3000
+      - traefik.frontend.rule=Host:localhost
+
+  server:
+    build: ./server
+    image: containous-codetest-server
+    container_name: containous-codetest-server
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3003:3003
+    labels: 
+      - traefik.port=3003
+      - traefik.frontend.rule=Host:api.localhost
+
+  reverse-proxy:
+    # The official v2.0 Traefik docker image
+    image: traefik:v2.0
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
