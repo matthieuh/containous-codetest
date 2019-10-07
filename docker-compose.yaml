@@ -14,8 +14,9 @@ services:
     depends_on:
       - server
     labels:
-      - traefik.port=3000
-      - traefik.frontend.rule=Host:localhost
+      - traefik.enable=true
+      - "traefik.http.routers.client.rule=Host(`codetest.localhost`)"
+      - "traefik.http.routers.client.entrypoints=web"
 
   server:
     build: ./server
@@ -28,15 +29,21 @@ services:
       - /usr/src/app/node_modules
     ports:
       - 3003:3003
-    labels: 
-      - traefik.port=3003
-      - traefik.frontend.rule=Host:api.localhost
+    labels:
+      - traefik.enable=true
+      - "traefik.http.routers.server.rule=Host(`api.codetest.localhost`)"
+      - "traefik.http.routers.server.entrypoints=web"
 
   reverse-proxy:
     # The official v2.0 Traefik docker image
     image: traefik:v2.0
     # Enables the web UI and tells Traefik to listen to docker
-    command: --api.insecure=true --providers.docker
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
     ports:
       # The HTTP port
       - "80:80"
